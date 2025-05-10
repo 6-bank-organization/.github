@@ -1,0 +1,387 @@
+classDiagram
+%% Client Applications
+    class ClientApplications {
+        +WebPortal
+        +MobileApps
+        +PartnerAPIs
+        +AdminDashboards
+        +RegulatoryInterfaces
+        +ThirdPartyProviders
+    }
+
+%% API Gateway
+    class KongAPIGateway {
+        +routeRequests()
+        +authenticate()
+        +rateLimit()
+        +loadBalance()
+        +cacheResponses()
+        +logMetrics()
+    }
+
+%% Domain Services
+%% Core Banking Domain
+    class AccountService {
+        +createAccount()
+        +updateAccount()
+        +closeAccount()
+        +getAccountDetails()
+        +linkAccounts()
+    }
+
+    class TransactionService {
+        +initiateTransaction()
+        +processTransaction()
+        +validateTransaction()
+        +recordTransaction()
+        +retrieveTransactionHistory()
+    }
+
+    class PaymentGateway {
+        +routePayment()
+        +validatePayment()
+        +processPayment()
+        +notifyPaymentStatus()
+        +reconcilePayments()
+    }
+
+    class ProductCatalog {
+        +createProduct()
+        +updateProduct()
+        +retireProduct()
+        +getProductDetails()
+        +searchProducts()
+    }
+
+    class CustomerProfile {
+        +createCustomer()
+        +updateCustomer()
+        +verifyCustomer()
+        +searchCustomers()
+        +getCustomerInsights()
+    }
+
+    class FeeInterestEngine {
+        +calculateFees()
+        +applyFees()
+        +calculateInterest()
+        +applyInterest()
+        +generateSchedules()
+    }
+
+%% Risk & Compliance Domain
+    class KYCAMLService {
+        +performKYC()
+        +screenCustomer()
+        +monitorTransactions()
+        +generateAlerts()
+        +manageRiskRatings()
+    }
+
+    class RegulatoryReporting {
+        +generateReports()
+        +validateCompliance()
+        +fileReports()
+        +trackDeadlines()
+        +manageRequirements()
+    }
+
+    class AuditService {
+        +recordAuditTrail()
+        +searchAuditEvents()
+        +generateAuditReports()
+        +validateIntegrity()
+        +retainAuditHistory()
+    }
+
+    class LimitsControls {
+        +defineRules()
+        +applyLimits()
+        +authorizeExceptions()
+        +monitorLimits()
+        +reportViolations()
+    }
+
+%% Customer Experience Domain
+    class AuthenticationService {
+        +authenticateUser()
+        +authorizeAccess()
+        +manageTokens()
+        +enforcePolicy()
+        +handleMFA()
+    }
+
+    class NotificationService {
+        +sendNotification()
+        +managePreferences()
+        +trackDelivery()
+        +scheduleNotifications()
+        +renderTemplates()
+    }
+
+    class UserPreference {
+        +storePreferences()
+        +retrievePreferences()
+        +updatePreferences()
+        +applyDefaults()
+        +validatePreferences()
+    }
+
+    class SessionManagement {
+        +createSession()
+        +validateSession()
+        +renewSession()
+        +terminateSession()
+        +trackActivity()
+    }
+
+    class DocumentService {
+        +generateDocument()
+        +storeDocument()
+        +retrieveDocument()
+        +archiveDocument()
+        +searchDocuments()
+    }
+
+    class DigitalOnboarding {
+        +initiateOnboarding()
+        +collectInformation()
+        +verifyIdentity()
+        +createAccount()
+        +trackProgress()
+    }
+
+%% Open Banking Domain
+    class TPPRegistry {
+        +registerTPP()
+        +verifyTPP()
+        +manageAccess()
+        +revokeAccess()
+        +monitorTPPActivity()
+    }
+
+    class ConsentManagement {
+        +createConsent()
+        +validateConsent()
+        +revokeConsent()
+        +trackConsents()
+        +enforceScopes()
+    }
+
+    class AISGateway {
+        +fetchAccountInfo()
+        +aggregateAccounts()
+        +filterTransactions()
+        +validateAccess()
+        +enforceRateLimits()
+    }
+
+    class PISGateway {
+        +initiatePayment()
+        +authorizePayment()
+        +confirmPayment()
+        +checkPaymentStatus()
+        +notifyPaymentEvents()
+    }
+
+    class SCAService {
+        +initiateAuthentication()
+        +validateAuthFactors()
+        +manageTrustedDevices()
+        +enforceRiskControls()
+        +auditAuthentications()
+    }
+
+    class OpenBankingAPI {
+        +exposeEndpoints()
+        +validateRequests()
+        +enforceStandards()
+        +documentAPI()
+        +versionAPI()
+    }
+
+%% Data & Analytics Domain
+    class AnalyticsEngine {
+        +processEvents()
+        +aggregateMetrics()
+        +detectPatterns()
+        +generateInsights()
+        +scoreBehaviors()
+    }
+
+    class ReportingService {
+        +createReports()
+        +scheduleReports()
+        +distributeReports()
+        +customizeReports()
+        +archiveReports()
+    }
+
+    class DataExport {
+        +exportData()
+        +formatExports()
+        +scheduleExports()
+        +validateData()
+        +notifyCompletion()
+    }
+
+    class MLPrediction {
+        +trainModels()
+        +evaluateModels()
+        +deployModels()
+        +generatePredictions()
+        +monitorAccuracy()
+    }
+
+    class RealTimeDashboard {
+        +visualizeData()
+        +refreshMetrics()
+        +customizeViews()
+        +alertOnThresholds()
+        +exportDashboards()
+    }
+
+    class DataQuality {
+        +validateData()
+        +cleanData()
+        +enforceRules()
+        +reportIssues()
+        +measureQuality()
+    }
+
+%% External Systems
+    class SentiFraudSystem {
+        +detectFraud()
+        +scoreTransactions()
+        +manageRules()
+        +trainModels()
+        +reportFindings()
+    }
+
+    class FXRiskManagementSystem {
+        +analyzeExposure()
+        +monitorMarkets()
+        +recommendHedging()
+        +calculatePositions()
+        +stressTestScenarios()
+    }
+
+%% Event Streaming
+    class ApacheKafka {
+        +publishEvents()
+        +consumeEvents()
+        +manageTopics()
+        +replayEvents()
+        +scaleStreams()
+    }
+
+    class DebeziumCDC {
+        +captureChanges()
+        +streamChanges()
+        +transformEvents()
+        +manageOffsets()
+        +handleFailures()
+    }
+
+%% Processing
+    class ApacheFlink {
+        +processStreams()
+        +calculateWindows()
+        +joinStreams()
+        +aggregateData()
+        +detectPatterns()
+    }
+
+%% Data Storage
+    class PostgreSQL {
+        +storeTransactionalData()
+        +ensureACID()
+        +queryData()
+        +indexData()
+        +backupData()
+    }
+
+    class Redis {
+        +cacheData()
+        +manageSession()
+        +publishSubscribe()
+        +expireData()
+        +atomicOperations()
+    }
+
+    class Elasticsearch {
+        +indexDocuments()
+        +searchText()
+        +analyzeData()
+        +aggregateResults()
+        +visualizeLogs()
+    }
+
+    class MinIO {
+        +storeObjects()
+        +retrieveObjects()
+        +versionObjects()
+        +secureAccess()
+        +replicateData()
+    }
+
+%% Monitoring
+    class Zipkin {
+        +traceRequests()
+        +visualizeTraces()
+        +analyzeLatency()
+        +correlateSpans()
+        +exportTraces()
+    }
+
+%% Relationships
+    ClientApplications --> KongAPIGateway : interacts with
+
+    KongAPIGateway --> AccountService : routes to
+    KongAPIGateway --> TransactionService : routes to
+    KongAPIGateway --> PaymentGateway : routes to
+    KongAPIGateway --> OpenBankingAPI : routes to
+    KongAPIGateway --> AuthenticationService : authenticates via
+
+    TransactionService --> SentiFraudSystem : validates with
+    PaymentGateway --> FXRiskManagementSystem : analyzes risk with
+
+    AccountService --> ApacheKafka : publishes events to
+    TransactionService --> ApacheKafka : publishes events to
+    PaymentGateway --> ApacheKafka : publishes events to
+    SentiFraudSystem --> ApacheKafka : publishes findings to
+    FXRiskManagementSystem --> ApacheKafka : publishes analyses to
+
+    PostgreSQL --> DebeziumCDC : changes captured by
+    DebeziumCDC --> ApacheKafka : streams changes to
+
+    ApacheKafka --> ApacheFlink : streams processed by
+    ApacheFlink --> Elasticsearch : writes results to
+
+    AccountService --> PostgreSQL : stores data in
+    TransactionService --> PostgreSQL : stores data in
+    TransactionService --> Redis : caches data in
+
+    DocumentService --> MinIO : stores documents in
+    ReportingService --> MinIO : stores reports in
+
+    KYCAMLService --> Elasticsearch : searches data in
+    AnalyticsEngine --> Elasticsearch : analyzes data in
+
+    AuthenticationService --> Redis : manages sessions in
+    SessionManagement --> Redis : tracks sessions in
+
+    TPPRegistry --> PostgreSQL : registers providers in
+    ConsentManagement --> PostgreSQL : tracks consents in
+    AISGateway --> PostgreSQL : retrieves accounts from
+    PISGateway --> PaymentGateway : initiates payments via
+
+    TransactionService .. Zipkin : traces with
+    PaymentGateway .. Zipkin : traces with
+    SentiFraudSystem .. Zipkin : traces with
+
+    OpenBankingAPI --> TPPRegistry : validates TPPs with
+    OpenBankingAPI --> ConsentManagement : checks consent with
+    OpenBankingAPI --> SCAService : authenticates with
+    AISGateway --> AccountService : retrieves data from
+    PISGateway --> TransactionService : creates transactions via

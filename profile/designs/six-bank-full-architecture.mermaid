@@ -1,0 +1,230 @@
+flowchart TD
+%% Client Layer
+    subgraph "Client Layer"
+        web[Web Portal]
+        mobile[Mobile Apps]
+        partners[Partner APIs]
+        admin[Admin Dashboards]
+        regulators[Regulatory Interfaces]
+        tpps[Third-Party Providers]
+    end
+
+%% API Gateway Layer
+    subgraph "API Gateway Layer"
+        kong[Kong API Gateway]
+        apimgmt[API Management]
+    end
+
+%% Domain Services
+    subgraph "Domain Services"
+    %% Core Banking Domain
+        subgraph "Core Banking Domain"
+            account[Account Service]
+            transaction[Transaction Service]
+            payment[Payment Gateway]
+            product[Product Catalog]
+            customer[Customer Profile]
+            fees[Fee & Interest Engine]
+        end
+
+    %% Risk & Compliance Domain
+        subgraph "Risk & Compliance Domain"
+            kyc[KYC/AML Service]
+            regulatory[Regulatory Reporting]
+            audit[Audit Service]
+            limits[Limits & Controls]
+        end
+
+    %% Customer Experience Domain
+        subgraph "Customer Experience Domain"
+            auth[Authentication Service]
+            notification[Notification Service]
+            preference[User Preference]
+            session[Session Management]
+            document[Document Service]
+            onboarding[Digital Onboarding]
+        end
+
+    %% Open Banking Domain
+        subgraph "Open Banking Domain"
+            tpp_reg[TPP Registry]
+            consent[Consent Management]
+            ais[AIS Gateway]
+            pis[PIS Gateway]
+            sca[SCA Service]
+            ob_api[Open Banking API]
+        end
+
+    %% Data & Analytics Domain
+        subgraph "Data & Analytics Domain"
+            analytics[Analytics Engine]
+            reporting[Reporting Service]
+            data_export[Data Export]
+            ml[ML Prediction]
+            dashboard[Real-time Dashboard]
+            data_quality[Data Quality]
+        end
+
+    %% Integration & Support Domain
+        subgraph "Integration & Support Domain"
+            ext_int[External Integration]
+            batch[Batch Processing]
+            file[File Processing]
+            registry[Service Registry]
+            config[Configuration Service]
+        end
+    end
+
+%% External Systems
+    subgraph "External Systems"
+    %% SentiFraud
+        subgraph "SentiFraud System"
+            sf_api[SentiFraud API]
+            sf_engine[Fraud Detection Engine]
+            sf_ml[ML Model Service]
+            sf_db[(Fraud Database)]
+        end
+
+    %% FX Risk Management
+        subgraph "FX Risk Management System"
+            fx_api[FX Risk API]
+            fx_engine[Risk Analysis Engine]
+            fx_market[Market Data Service]
+            fx_hedge[Hedging Strategy Engine]
+            fx_db[(Position Database)]
+        end
+
+    %% Third Party Systems
+        swift[SWIFT]
+        sepa[SEPA/ACH]
+        cards[Card Networks]
+        central_bank[Central Bank]
+        external_tpps[External TPPs]
+    end
+
+%% Event Streaming Layer
+    subgraph "Event Streaming Layer"
+        kafka[Apache Kafka]
+        debezium[Debezium CDC]
+        topics[Event Topics]
+    end
+
+%% Processing Layer
+    subgraph "Processing Layer"
+        flink[Apache Flink]
+        stream_processing[Stream Processing Jobs]
+    end
+
+%% Data Storage Layer
+    subgraph "Data Storage Layer"
+    %% Primary Data Stores
+        postgres[(PostgreSQL)]
+        redis[(Redis)]
+        elastic[(Elasticsearch)]
+        minio[(MinIO)]
+        tsdb[(Time Series DB)]
+
+    %% Read Replicas
+        pg_replica[(PostgreSQL Replicas)]
+    end
+
+%% Monitoring Layer
+    subgraph "Monitoring Layer"
+        prometheus[Prometheus]
+        grafana[Grafana]
+        zipkin[Zipkin]
+        alerts[Alert Manager]
+        logging[ELK Stack]
+    end
+
+%% Deployment Layer
+    subgraph "Deployment Layer"
+        k8s[Kubernetes]
+        helm[Helm Charts]
+        jenkins[Jenkins]
+        argocd[ArgoCD]
+        vault[HashiCorp Vault]
+    end
+
+%% Client Layer Connections
+    web & mobile & partners & admin & regulators & tpps --> kong
+
+%% API Gateway Connections
+    kong --> apimgmt
+    kong --> account & transaction & payment & product & customer & fees
+    kong --> auth & notification & preference & session & document & onboarding
+    kong --> tpp_reg & consent & ais & pis & sca & ob_api
+    kong --> kyc & regulatory & audit & limits
+    kong --> ext_int
+
+%% External System Connections
+    transaction --> sf_api
+    sf_api --> sf_engine
+    sf_engine --> sf_ml
+    sf_engine <--> sf_db
+    sf_engine --> kafka
+
+    payment --> fx_api
+    fx_api --> fx_engine
+    fx_engine --> fx_market
+    fx_engine --> fx_hedge
+    fx_engine <--> fx_db
+    fx_engine --> kafka
+
+    ext_int --> swift & sepa & cards & central_bank
+    ob_api --> external_tpps
+
+%% Data Flow Connections
+    account & transaction & payment & product & customer & fees --> kafka
+    kyc & regulatory & audit & limits --> kafka
+    auth & notification & preference & session & document & onboarding --> kafka
+    tpp_reg & consent & ais & pis & sca & ob_api --> kafka
+    analytics & reporting & data_export & ml & dashboard & data_quality --> kafka
+
+    postgres --> debezium
+    debezium --> kafka
+    kafka --> topics
+    topics --> flink
+    flink --> stream_processing
+    stream_processing --> elastic & tsdb & redis
+
+%% Data Storage Connections
+    account & transaction & payment & product & customer & fees --> postgres & redis
+    kyc & regulatory & audit & limits --> postgres & elastic
+    auth & notification & preference & session & document & onboarding --> postgres & redis
+    tpp_reg & consent & ais & pis & sca & ob_api --> postgres & redis
+    analytics & reporting & data_export & ml & dashboard & data_quality --> elastic & tsdb & minio
+    document --> minio
+
+    postgres --> pg_replica
+
+%% Monitoring Connections
+    Domain_Services -.-> prometheus & zipkin
+    Event_Streaming_Layer & Processing_Layer & Data_Storage_Layer -.-> prometheus
+    prometheus --> grafana
+    prometheus --> alerts
+    Domain_Services -.-> logging
+
+%% Deployment Connections
+    k8s --> Domain_Services & External_Systems & Event_Streaming_Layer & Processing_Layer & Data_Storage_Layer & Monitoring_Layer
+    helm --> k8s
+    jenkins --> helm
+    argocd --> k8s
+    vault --> k8s
+
+%% Styling
+    classDef external fill:#f96,stroke:#333,stroke-width:2px
+    classDef storage fill:#9cf,stroke:#333
+    classDef monitoring fill:#ccf,stroke:#333
+    classDef streaming fill:#f9f,stroke:#333
+    classDef processing fill:#bfb,stroke:#333
+    classDef security fill:#ffc,stroke:#333
+    classDef deployment fill:#eee,stroke:#333
+
+    class sf_api,sf_engine,sf_ml,sf_db,fx_api,fx_engine,fx_market,fx_hedge,fx_db,swift,sepa,cards,central_bank,external_tpps external
+    class postgres,redis,elastic,minio,tsdb,pg_replica storage
+    class prometheus,grafana,zipkin,alerts,logging monitoring
+    class kafka,debezium,topics streaming
+    class flink,stream_processing processing
+    class auth,kyc,limits,vault security
+    class k8s,helm,jenkins,argocd,vault deployment

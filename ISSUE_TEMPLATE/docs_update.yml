@@ -1,0 +1,37 @@
+name: Documentation Update
+description: Propose a change or addition to the documentation
+title: "[DOCS] "
+labels: ["documentation"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Help us improve our documentation by suggesting an update.
+
+  - type: input
+    id: location
+    attributes:
+      label: Documentation Location
+      description: Where should this change go?
+      placeholder: "README.md, API Docs, Contributing Guide, etc."
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What Needs to Change?
+      description: Describe what you want to improve or add.
+      placeholder: "Add example usage for API endpoint X"
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why is this change important?
+      description: Explain the value this brings to the project.
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any supporting materials or references.

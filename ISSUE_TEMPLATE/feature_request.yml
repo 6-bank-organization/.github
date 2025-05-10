@@ -1,0 +1,38 @@
+name: Feature Request
+description: Suggest a new feature or enhancement
+title: "[FEATURE] "
+labels: ["enhancement"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement or new feature!
+
+  - type: input
+    id: goal
+    attributes:
+      label: Feature Goal
+      description: What problem does this feature solve?
+      placeholder: "Enable risk scoring by currency exposure"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: Provide a detailed description of the proposed feature.
+      placeholder: |
+        I'd like to see...
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Did you consider any alternative solutions?
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or mockups.

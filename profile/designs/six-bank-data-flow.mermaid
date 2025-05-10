@@ -1,0 +1,153 @@
+flowchart LR
+%% Data Sources
+    subgraph "Data Sources"
+        direction TB
+        users([Users])
+        banking([Banking Operations])
+        external([External Systems])
+        market([Market Data])
+        regulatory([Regulatory Systems])
+    end
+
+%% Domain Services
+    subgraph "Domain Services"
+        direction TB
+        subgraph "Core Banking"
+            account[Account Service]
+            transaction[Transaction Service]
+            payment[Payment Gateway]
+        end
+
+        subgraph "Customer Experience"
+            portal[Customer Portal]
+            mobile[Mobile Banking]
+            notification[Notification Service]
+        end
+
+        subgraph "Risk & Compliance"
+            kyc[KYC/AML Service]
+            limits[Limits & Controls]
+            regulatory_r[Regulatory Reporting]
+        end
+
+        subgraph "Open Banking"
+            consent[Consent Management]
+            ais[AIS Gateway]
+            pis[PIS Gateway]
+        end
+    end
+
+%% External Systems
+    subgraph "External Systems"
+        direction TB
+        sentiFraud[SentiFraud]
+        fxRisk[FX Risk Management]
+        swift[SWIFT]
+        tpps[Third Party Providers]
+    end
+
+%% Data Processing
+    subgraph "Data Processing"
+        direction TB
+        kafka[Apache Kafka]
+        debezium[Debezium CDC]
+        flink[Apache Flink]
+        streamingJobs[Streaming Jobs]
+    end
+
+%% Data Storage
+    subgraph "Data Storage"
+        direction TB
+        pg[(PostgreSQL)]
+        redis[(Redis)]
+        es[(Elasticsearch)]
+        minio[(MinIO)]
+        tsdb[(Time Series DB)]
+    end
+
+%% Data Consumers
+    subgraph "Data Consumers"
+        direction TB
+        analytics[Analytics Engine]
+        reporting[Reporting Service]
+        ml[ML Prediction]
+        dashboard[Real-time Dashboard]
+    end
+
+%% User Connections
+    users --> portal & mobile & tpps
+    portal & mobile --> account & transaction & payment
+    tpps --> ais & pis
+
+%% Core Banking Flows
+    banking --> account & transaction & payment
+    account --> kafka
+    transaction --> kafka
+    payment --> kafka
+    payment --> swift
+
+%% Risk Flows
+    transaction --> sentiFraud
+    sentiFraud --> kafka
+    payment --> fxRisk
+    fxRisk --> kafka
+
+%% Open Banking Flows
+    ais --> consent
+    pis --> consent
+    consent --> account & transaction
+    ais --> account
+    pis --> payment
+
+%% Regulatory Flows
+    regulatory --> regulatory_r
+    kyc & limits & regulatory_r --> kafka
+
+%% Market Data Flows
+    market --> fxRisk
+
+%% External System Flows
+    external --> kafka
+
+%% Notification Flows
+    kafka --> notification
+    notification --> users
+
+%% Data Capture Flows
+    pg --> debezium
+    debezium --> kafka
+
+%% Data Processing Flows
+    kafka --> flink
+    flink --> streamingJobs
+    streamingJobs --> es & tsdb
+
+%% Data Storage Flows
+    Core_Banking --> pg & redis
+    Risk_Compliance --> pg & es
+    Customer_Experience --> pg & redis
+    Open_Banking --> pg & redis
+
+%% Data Consumer Flows
+    es & tsdb --> analytics & dashboard
+    pg & es --> reporting
+    es & tsdb --> ml
+
+%% Output Flows
+    analytics & reporting & ml & dashboard --> users
+    regulatory_r --> regulatory
+
+%% Styling
+    classDef source fill:#e1f5fe,stroke:#01579b
+    classDef service fill:#e8f5e9,stroke:#1b5e20
+    classDef external fill:#fff8e1,stroke:#ff6f00,stroke-width:2px
+    classDef processing fill:#f3e5f5,stroke:#4a148c
+    classDef storage fill:#e8eaf6,stroke:#1a237e
+    classDef consumer fill:#fce4ec,stroke:#880e4f
+
+    class users,banking,external,market,regulatory source
+    class account,transaction,payment,portal,mobile,notification,kyc,limits,regulatory_r,consent,ais,pis service
+    class sentiFraud,fxRisk,swift,tpps external
+    class kafka,debezium,flink,streamingJobs processing
+    class pg,redis,es,minio,tsdb storage
+    class analytics,reporting,ml,dashboard consumer
