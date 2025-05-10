@@ -273,7 +273,7 @@ Security is foundational to the SIX Bank Platform:
 
 ## 📚 Documentation
 
-- [Architecture Guide](./docs/architecture-guide.md)
+- [Architecture Guide](profile/docs/architecture-guide.md)
 - [API Documentation](./docs/api-docs.md)
 - [Deployment Guide](./docs/deployment-guide.md)
 - [Operations Manual](./docs/operations-manual.md)
