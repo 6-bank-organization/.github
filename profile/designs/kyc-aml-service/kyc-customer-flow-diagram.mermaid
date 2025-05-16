@@ -1,0 +1,39 @@
+graph TD
+    A[Customer Logs In] --> B{Has Active KYC?}
+    B -->|Yes| C[View KYC Status]
+    B -->|No| D[Start New KYC Application]
+
+    D --> E[Select Document Type]
+    E --> F[View Required Document Files]
+    F --> G[Upload Document Files]
+    G --> H{All Documents Uploaded?}
+    H -->|No| G
+    H -->|Yes| I[Record Liveness Check Video]
+    I --> J[Review All Submissions]
+    J --> K{Confirm Submission?}
+    K -->|No| G
+    K -->|Yes| L[Submit KYC Application]
+    L --> M[Receive Submission Confirmation]
+    M --> N[Wait for KYC Approval]
+
+    C --> O{KYC Status?}
+    O -->|Approved| P[Use Bank Services]
+    O -->|Rejected| Q[View Rejection Reasons]
+    Q --> R[Resubmit Documents]
+    R --> G
+    O -->|Pending| N
+
+    N --> S[Receive KYC Decision]
+    S --> T{Decision?}
+    T -->|Approved| P
+    T -->|Rejected| Q
+
+    classDef customer fill:#d4f1c5,stroke:#333,stroke-width:1px;
+    classDef process fill:#d9e7f1,stroke:#333,stroke-width:1px;
+    classDef decision fill:#fff2cc,stroke:#333,stroke-width:1px;
+    classDef endpoint fill:#f8cecc,stroke:#333,stroke-width:1px;
+
+    class A,C,D,E,F,G,I,J,M,P,Q,R customer;
+    class L,N,S process;
+    class B,H,K,O,T decision;
+    class P endpoint;

@@ -1,0 +1,100 @@
+erDiagram
+    Customer ||--o{ KycApplication : "submits"
+    KycApplication ||--|{ DocumentSubmission : "contains"
+    DocumentSubmission ||--|| DocumentType : "is of"
+    DocumentSubmission ||--|{ DocumentFile : "has"
+    DocumentFile }|--|| DocumentFileType : "is of"
+    DocumentFile }o--o| RejectionReason : "may have"
+    KycApplication ||--o| LivenessCheck : "includes"
+    KycApplication }o--o| RejectionReason : "may have"
+    Admin ||--o{ DocumentType : "configures"
+    Admin ||--o{ DocumentFileType : "configures"
+    Admin ||--o{ RejectionReason : "configures"
+    Admin ||--o{ KycApplication : "verifies"
+
+    Customer {
+        UUID id
+        String customerNumber
+        String email
+        String phoneNumber
+        String firstName
+        String lastName
+        KycStatus kycStatus
+    }
+
+    KycApplication {
+        UUID id
+        UUID customerId
+        DateTime submissionDate
+        KycStatus status
+        UUID adminId
+        DateTime verificationDate
+        String comments
+    }
+
+    DocumentSubmission {
+        UUID id
+        UUID kycApplicationId
+        UUID documentTypeId
+        SubmissionStatus status
+    }
+
+    DocumentFile {
+        UUID id
+        UUID documentSubmissionId
+        UUID documentFileTypeId
+        String fileKey
+        String fileName
+        String fileUrl
+        String mimeType
+        Long fileSize
+        SubmissionStatus status
+        UUID rejectionReasonId
+        String adminComments
+        DateTime uploadDate
+        DateTime verificationDate
+    }
+
+    DocumentType {
+        UUID id
+        String name
+        String description
+        boolean isActive
+        boolean isRequired
+    }
+
+    DocumentFileType {
+        UUID id
+        UUID documentTypeId
+        String name
+        String description
+        boolean isRequired
+    }
+
+    RejectionReason {
+        UUID id
+        String code
+        String description
+        RejectionType type
+    }
+
+    LivenessCheck {
+        UUID id
+        UUID kycApplicationId
+        String videoFileKey
+        String videoUrl
+        SubmissionStatus status
+        UUID rejectionReasonId
+        String adminComments
+        DateTime uploadDate
+        DateTime verificationDate
+    }
+
+    Admin {
+        UUID id
+        String username
+        String email
+        String firstName
+        String lastName
+        AdminRole role
+    }
